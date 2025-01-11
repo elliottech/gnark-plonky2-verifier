@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/consensys/gnark/frontend"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
 )
 
 var constantGateRegex = regexp.MustCompile("ConstantGate { num_consts: (?P<numConsts>[0-9]+) }")

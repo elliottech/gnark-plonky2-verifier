@@ -4,9 +4,9 @@ This is an implementation of a [Plonky2](https://github.com/mir-protocol/plonky2
 
 Besides the verifier, there are some Gnark implementation of circuits in this repo that may be useful for other projects:
 
-- [Goldilocks](https://github.com/succinctlabs/gnark-plonky2-verifier/blob/main/field/field.go)
-- [Poseidon](https://github.com/succinctlabs/gnark-plonky2-verifier/blob/main/poseidon/poseidon.go)
-- [FRI](https://github.com/succinctlabs/gnark-plonky2-verifier/blob/main/plonky2_verifier/fri.go)
+- [Goldilocks](https://github.com/elliottech/gnark-plonky2-verifier/blob/main/field/field.go)
+- [Poseidon](https://github.com/elliottech/gnark-plonky2-verifier/blob/main/poseidon/poseidon.go)
+- [FRI](https://github.com/elliottech/gnark-plonky2-verifier/blob/main/plonky2_verifier/fri.go)
 
 ## Requirements
 

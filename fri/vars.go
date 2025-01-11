@@ -1,6 +1,6 @@
 package fri
 
-import gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
+import gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
 
 type BatchInfo struct {
 	Point       gl.QuadraticExtensionVariable

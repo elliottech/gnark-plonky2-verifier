@@ -2,7 +2,7 @@ package poseidon
 
 import (
 	"github.com/consensys/gnark/frontend"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
 )
 
 const HALF_N_FULL_ROUNDS = 4

@@ -3,7 +3,7 @@ package variables
 import (
 	"testing"
 
-	"github.com/succinctlabs/gnark-plonky2-verifier/types"
+	"github.com/elliottech/gnark-plonky2-verifier/types"
 )
 
 func TestDeserializeProofWithPublicInputs(t *testing.T) {

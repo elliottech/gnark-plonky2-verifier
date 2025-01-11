@@ -5,7 +5,7 @@ import (
 	"regexp"
 
 	"github.com/consensys/gnark/frontend"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
 )
 
 type Gate interface {

@@ -7,7 +7,7 @@ import (
 	"github.com/consensys/gnark/backend"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/test"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
 )
 
 var testCurve = ecc.BN254

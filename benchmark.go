@@ -18,10 +18,10 @@ import (
 	"github.com/consensys/gnark/frontend/cs/scs"
 	"github.com/consensys/gnark/profile"
 	"github.com/consensys/gnark/test"
-	"github.com/succinctlabs/gnark-plonky2-verifier/trusted_setup"
-	"github.com/succinctlabs/gnark-plonky2-verifier/types"
-	"github.com/succinctlabs/gnark-plonky2-verifier/variables"
-	"github.com/succinctlabs/gnark-plonky2-verifier/verifier"
+	"github.com/elliottech/gnark-plonky2-verifier/trusted_setup"
+	"github.com/elliottech/gnark-plonky2-verifier/types"
+	"github.com/elliottech/gnark-plonky2-verifier/variables"
+	"github.com/elliottech/gnark-plonky2-verifier/verifier"
 )
 
 func runBenchmark(plonky2Circuit string, proofSystem string, profileCircuit bool, dummy bool, saveArtifacts bool) {

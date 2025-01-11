@@ -1,8 +1,8 @@
 package variables
 
 import (
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
-	"github.com/succinctlabs/gnark-plonky2-verifier/poseidon"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
+	"github.com/elliottech/gnark-plonky2-verifier/poseidon"
 )
 
 type Proof struct {

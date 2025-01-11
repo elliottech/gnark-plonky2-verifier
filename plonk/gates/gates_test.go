@@ -8,10 +8,10 @@ import (
 	"github.com/consensys/gnark-crypto/field/goldilocks"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/test"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
-	"github.com/succinctlabs/gnark-plonky2-verifier/plonk/gates"
-	"github.com/succinctlabs/gnark-plonky2-verifier/poseidon"
-	"github.com/succinctlabs/gnark-plonky2-verifier/types"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
+	"github.com/elliottech/gnark-plonky2-verifier/plonk/gates"
+	"github.com/elliottech/gnark-plonky2-verifier/poseidon"
+	"github.com/elliottech/gnark-plonky2-verifier/types"
 )
 
 // From recursive_step circuit

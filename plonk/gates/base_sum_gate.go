@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/consensys/gnark/frontend"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
 )
 
 var baseSumGateRegex = regexp.MustCompile(`BaseSumGate { num_limbs: (?P<numLimbs>[0-9]+) } \+ Base: (?P<base>[0-9]+)`)

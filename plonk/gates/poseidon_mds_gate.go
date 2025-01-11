@@ -4,8 +4,8 @@ import (
 	"regexp"
 
 	"github.com/consensys/gnark/frontend"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
-	"github.com/succinctlabs/gnark-plonky2-verifier/poseidon"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
+	"github.com/elliottech/gnark-plonky2-verifier/poseidon"
 )
 
 var poseidonMdsGateRegex = regexp.MustCompile("PoseidonMdsGate.*")

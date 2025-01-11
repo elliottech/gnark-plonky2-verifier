@@ -4,8 +4,8 @@ import (
 	"math"
 
 	"github.com/consensys/gnark-crypto/field/goldilocks"
-	"github.com/succinctlabs/gnark-plonky2-verifier/types"
-	"github.com/succinctlabs/gnark-plonky2-verifier/variables"
+	"github.com/elliottech/gnark-plonky2-verifier/types"
+	"github.com/elliottech/gnark-plonky2-verifier/variables"
 )
 
 type PolynomialInfo struct {

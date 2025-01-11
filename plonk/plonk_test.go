@@ -6,10 +6,10 @@ import (
 	"github.com/consensys/gnark-crypto/ecc"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/test"
-	"github.com/succinctlabs/gnark-plonky2-verifier/plonk"
-	"github.com/succinctlabs/gnark-plonky2-verifier/types"
-	"github.com/succinctlabs/gnark-plonky2-verifier/variables"
-	"github.com/succinctlabs/gnark-plonky2-verifier/verifier"
+	"github.com/elliottech/gnark-plonky2-verifier/plonk"
+	"github.com/elliottech/gnark-plonky2-verifier/types"
+	"github.com/elliottech/gnark-plonky2-verifier/variables"
+	"github.com/elliottech/gnark-plonky2-verifier/verifier"
 )
 
 type TestPlonkCircuit struct {

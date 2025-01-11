@@ -4,9 +4,9 @@ import (
 	"math/big"
 
 	"github.com/consensys/gnark/frontend"
-	gl "github.com/succinctlabs/gnark-plonky2-verifier/goldilocks"
-	"github.com/succinctlabs/gnark-plonky2-verifier/poseidon"
-	"github.com/succinctlabs/gnark-plonky2-verifier/types"
+	gl "github.com/elliottech/gnark-plonky2-verifier/goldilocks"
+	"github.com/elliottech/gnark-plonky2-verifier/poseidon"
+	"github.com/elliottech/gnark-plonky2-verifier/types"
 )
 
 func DeserializeMerkleCap(merkleCapRaw []string) FriMerkleCap {
