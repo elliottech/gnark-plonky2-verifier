@@ -40,6 +40,7 @@ var POWER_OF_TWO_GENERATOR goldilocks.Element = goldilocks.NewElement(7277203076
 
 // The modulus of the field.
 var MODULUS *big.Int = emulated.Goldilocks{}.Modulus()
+var MODULUS_UINT64 uint64 = 18446744069414584321
 
 // The number of bits to use for range checks on inner products of field elements.
 // This MUST be a multiple of EXPECTED_OPTIMAL_BASEWIDTH if the commit based range checker is used.
@@ -66,20 +67,13 @@ type Variable struct {
 // Creates a new Goldilocks field element from an existing variable. Assumes that the element is
 // already reduced.
 func NewVariable(x frontend.Variable) Variable {
-	if xx, ok := x.(uint64); ok {
-		if xx >= 18446744069414584321 {
-			fmt.Printf("xx: %d\n", xx)
-		}
-	}
 	return Variable{Limb: x}
 }
 
-// Creates a new Goldilocks field element from an existing uint64.
+// Creates a new Goldilocks field element from an existing uint64. It reduces the element.
 func NewVariableUint64(x uint64) Variable {
 	if x >= 18446744069414584321 {
-		fmt.Printf("x: %d\n", x)
 		x = x % 18446744069414584321
-		fmt.Printf("xr: %d\n", x)
 	}
 	return NewVariable(x)
 }
