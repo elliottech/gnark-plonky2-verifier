@@ -69,6 +69,14 @@ func NewVariable(x frontend.Variable) Variable {
 	return Variable{Limb: x}
 }
 
+// Creates a new Goldilocks field element from an existing uint64.
+func NewVariableUint64(x uint64) Variable {
+	if x >= MODULUS.Uint64() {
+		x = x % MODULUS.Uint64()
+	}
+	return NewVariable(x)
+}
+
 // The zero element in the Golidlocks field.
 func Zero() Variable {
 	return NewVariable(0)
