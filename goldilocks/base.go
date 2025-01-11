@@ -320,7 +320,7 @@ func InverseHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 
 	input := inputs[0]
 	if input.Cmp(MODULUS) == 0 || input.Cmp(MODULUS) == 1 {
-		panic("Input is not in the field")
+		return fmt.Errorf("InverseHint: input is not in the field %s", input.String())
 	}
 
 	inputGl := goldilocks.NewElement(input.Uint64())
@@ -345,7 +345,7 @@ func SplitLimbsHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 	input := inputs[0]
 
 	if input.Cmp(MODULUS) == 0 || input.Cmp(MODULUS) == 1 {
-		return fmt.Errorf("input is not in the field")
+		return fmt.Errorf("SplitLimbsHint: input is not in the field %s", input.String())
 	}
 
 	two_32 := big.NewInt(int64(math.Pow(2, 32)))
