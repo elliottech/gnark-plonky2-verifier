@@ -45,7 +45,7 @@ func (f *Chip) GetInstance(zeta gl.QuadraticExtensionVariable) InstanceInfo {
 
 	g := gl.PrimitiveRootOfUnity(f.commonData.DegreeBits)
 	zetaNext := f.gl.MulExtension(
-		gl.NewVariable(g.Uint64()).ToQuadraticExtension(),
+		gl.NewVariableUint64(g.Uint64()).ToQuadraticExtension(),
 		zeta,
 	)
 
@@ -169,7 +169,7 @@ func (f *Chip) expFromBitsConstBase(
 		pow := int64(1 << i)
 		basePow := goldilocks.NewElement(0)
 		basePow.Exp(base, big.NewInt(pow))
-		basePowVariable := gl.NewVariable(basePow.Uint64() - 1)
+		basePowVariable := gl.NewVariableUint64(basePow.Uint64() - 1)
 		product = f.gl.Add(
 			f.gl.Mul(
 				f.gl.Mul(
@@ -191,7 +191,7 @@ func (f *Chip) calculateSubgroupX(
 	// Compute x from its index
 	// `subgroup_x` is `subgroup[x_index]`, i.e., the actual field element in the domain.
 	// OPTIMIZE - Make these as global values
-	g := gl.NewVariable(gl.MULTIPLICATIVE_GROUP_GENERATOR.Uint64())
+	g := gl.NewVariableUint64(gl.MULTIPLICATIVE_GROUP_GENERATOR.Uint64())
 	base := gl.PrimitiveRootOfUnity(nLog)
 
 	// Create a reverse list of xIndexBits
@@ -353,7 +353,7 @@ func (f *Chip) computeEvaluation(
 	yPoints := permutedEvals
 
 	// OPTIMIZE: Make g_F a constant
-	g_F := gl.NewVariable(g.Uint64()).ToQuadraticExtension()
+	g_F := gl.NewVariableUint64(g.Uint64()).ToQuadraticExtension()
 	xPoints[0] = gl.QuadraticExtensionVariable{cosetStart, gl.Zero()}
 	for i := 1; i < len(evals); i++ {
 		xPoints[i] = f.gl.MulExtension(xPoints[i-1], g_F)

@@ -30,16 +30,17 @@ import (
 )
 
 // The multiplicative group generator of the field.
-var MULTIPLICATIVE_GROUP_GENERATOR goldilocks.Element = goldilocks.NewElement(7)
+var MULTIPLICATIVE_GROUP_GENERATOR goldilocks.Element = goldilocks.NewElement(14293326489335486720)
 
 // The two adicity of the field.
 var TWO_ADICITY uint64 = 32
 
 // The power of two generator of the field.
-var POWER_OF_TWO_GENERATOR goldilocks.Element = goldilocks.NewElement(1753635133440165772)
+var POWER_OF_TWO_GENERATOR goldilocks.Element = goldilocks.NewElement(7277203076849721926)
 
 // The modulus of the field.
 var MODULUS *big.Int = emulated.Goldilocks{}.Modulus()
+var MODULUS_UINT64 uint64 = 18446744069414584321
 
 // The number of bits to use for range checks on inner products of field elements.
 // This MUST be a multiple of EXPECTED_OPTIMAL_BASEWIDTH if the commit based range checker is used.
@@ -67,6 +68,14 @@ type Variable struct {
 // already reduced.
 func NewVariable(x frontend.Variable) Variable {
 	return Variable{Limb: x}
+}
+
+// Creates a new Goldilocks field element from an existing uint64. It reduces the element.
+func NewVariableUint64(x uint64) Variable {
+	if x >= 18446744069414584321 {
+		x = x % 18446744069414584321
+	}
+	return NewVariable(x)
 }
 
 // The zero element in the Golidlocks field.
@@ -320,7 +329,7 @@ func InverseHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 
 	input := inputs[0]
 	if input.Cmp(MODULUS) == 0 || input.Cmp(MODULUS) == 1 {
-		panic("Input is not in the field")
+		return fmt.Errorf("InverseHint: input is not in the field %s", input.String())
 	}
 
 	inputGl := goldilocks.NewElement(input.Uint64())
@@ -331,6 +340,10 @@ func InverseHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 
 	result := big.NewInt(0)
 	results[0] = resultGl.BigInt(result)
+
+	if results[0].Cmp(MODULUS) == 0 {
+		results[0].SetUint64(0)
+	}
 
 	return nil
 }
@@ -345,7 +358,7 @@ func SplitLimbsHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 	input := inputs[0]
 
 	if input.Cmp(MODULUS) == 0 || input.Cmp(MODULUS) == 1 {
-		return fmt.Errorf("input is not in the field")
+		return fmt.Errorf("SplitLimbsHint: input is not in the field %s", input.String())
 	}
 
 	two_32 := big.NewInt(int64(math.Pow(2, 32)))

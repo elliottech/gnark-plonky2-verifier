@@ -28,19 +28,19 @@ func StrArrayToFrontendVariableArray(input []string) []frontend.Variable {
 func Uint64ArrayToVariableArray(input []uint64) []Variable {
 	var output []Variable
 	for i := 0; i < len(input); i++ {
-		output = append(output, NewVariable(input[i]))
+		output = append(output, NewVariableUint64(input[i]))
 	}
 	return output
 }
 
 func Uint64ArrayToQuadraticExtension(input []uint64) QuadraticExtensionVariable {
-	return NewQuadraticExtensionVariable(NewVariable(input[0]), NewVariable(input[1]))
+	return NewQuadraticExtensionVariable(NewVariableUint64(input[0]), NewVariableUint64(input[1]))
 }
 
 func Uint64ArrayToQuadraticExtensionArray(input [][]uint64) []QuadraticExtensionVariable {
 	var output []QuadraticExtensionVariable
 	for i := 0; i < len(input); i++ {
-		output = append(output, NewQuadraticExtensionVariable(NewVariable(input[i][0]), NewVariable(input[i][1])))
+		output = append(output, NewQuadraticExtensionVariable(NewVariableUint64(input[i][0]), NewVariableUint64(input[i][1])))
 	}
 	return output
 }
