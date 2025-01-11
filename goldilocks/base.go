@@ -360,6 +360,7 @@ func SplitLimbsHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 
 // Range checks a field element x to be less than the Golidlocks modulus 2 ^ 64 - 2 ^ 32 + 1.
 func (p *Chip) RangeCheck(x Variable) {
+	p.api.Println(x)
 	// The Goldilocks' modulus is 2^64 - 2^32 + 1, which is:
 	//
 	// 		1111111111111111111111111111111100000000000000000000000000000001
