@@ -66,13 +66,20 @@ type Variable struct {
 // Creates a new Goldilocks field element from an existing variable. Assumes that the element is
 // already reduced.
 func NewVariable(x frontend.Variable) Variable {
+	if xx, ok := x.(uint64); ok {
+		if xx >= 18446744069414584321 {
+			fmt.Printf("xx: %d\n", xx)
+		}
+	}
 	return Variable{Limb: x}
 }
 
 // Creates a new Goldilocks field element from an existing uint64.
 func NewVariableUint64(x uint64) Variable {
-	if x >= MODULUS.Uint64() {
-		x = x % MODULUS.Uint64()
+	if x >= 18446744069414584321 {
+		fmt.Printf("x: %d\n", x)
+		x = x % 18446744069414584321
+		fmt.Printf("xr: %d\n", x)
 	}
 	return NewVariable(x)
 }
@@ -372,7 +379,6 @@ func SplitLimbsHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 
 // Range checks a field element x to be less than the Golidlocks modulus 2 ^ 64 - 2 ^ 32 + 1.
 func (p *Chip) RangeCheck(x Variable) {
-	p.api.Println(x)
 	// The Goldilocks' modulus is 2^64 - 2^32 + 1, which is:
 	//
 	// 		1111111111111111111111111111111100000000000000000000000000000001
