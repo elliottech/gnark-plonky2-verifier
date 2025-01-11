@@ -332,6 +332,10 @@ func InverseHint(_ *big.Int, inputs []*big.Int, results []*big.Int) error {
 	result := big.NewInt(0)
 	results[0] = resultGl.BigInt(result)
 
+	if results[0].Cmp(MODULUS) == 0 {
+		results[0].SetUint64(0)
+	}
+
 	return nil
 }
 
