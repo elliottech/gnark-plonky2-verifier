@@ -81,7 +81,7 @@ func DeserializeFriProof(openingProofRaw struct {
 	PowWitness uint64
 }) FriProof {
 	var openingProof FriProof
-	openingProof.PowWitness = gl.NewVariable(openingProofRaw.PowWitness)
+	openingProof.PowWitness = gl.NewVariableUint64(openingProofRaw.PowWitness)
 	openingProof.FinalPoly.Coeffs = gl.Uint64ArrayToQuadraticExtensionArray(openingProofRaw.FinalPoly.Coeffs)
 
 	openingProof.CommitPhaseMerkleCaps = make([]FriMerkleCap, len(openingProofRaw.CommitPhaseMerkleCaps))
