@@ -107,6 +107,16 @@ func ReadProofWithPublicInputs(path string) ProofWithPublicInputsRaw {
 	return raw
 }
 
+func ReadProofWithPublicInputsBytes(rawBytes []byte) ProofWithPublicInputsRaw {
+	var raw ProofWithPublicInputsRaw
+	err := json.Unmarshal(rawBytes, &raw)
+	if err != nil {
+		panic(err)
+	}
+
+	return raw
+}
+
 func ReadVerifierOnlyCircuitData(path string) VerifierOnlyCircuitDataRaw {
 	jsonFile, err := os.Open(path)
 	if err != nil {
@@ -118,6 +128,16 @@ func ReadVerifierOnlyCircuitData(path string) VerifierOnlyCircuitDataRaw {
 
 	var raw VerifierOnlyCircuitDataRaw
 	err = json.Unmarshal(rawBytes, &raw)
+	if err != nil {
+		panic(err)
+	}
+
+	return raw
+}
+
+func ReadVerifierOnlyCircuitDataBytes(rawBytes []byte) VerifierOnlyCircuitDataRaw {
+	var raw VerifierOnlyCircuitDataRaw
+	err := json.Unmarshal(rawBytes, &raw)
 	if err != nil {
 		panic(err)
 	}
