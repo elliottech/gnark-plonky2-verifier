@@ -1,6 +1,8 @@
 package verifier
 
 import (
+	"fmt"
+
 	"github.com/consensys/gnark/frontend"
 	"github.com/elliottech/gnark-plonky2-verifier/challenger"
 	"github.com/elliottech/gnark-plonky2-verifier/fri"
@@ -50,6 +52,52 @@ func (c *VerifierChip) GetChallenges(
 	config := c.commonData.Config
 	numChallenges := config.NumChallenges
 	challenger := challenger.NewChip(c.api)
+
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.RateBits))
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.CapHeight))
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.ProofOfWorkBits))
+	/*
+		Observe FRI reduction strategy.
+		There are 3 types of reduction strategies: Fixed, ConstantArityBits, and MinSize. We only
+		support ConstantArityBits for now. This code must be updated, as well as common circuit data
+		deserialization; should other strategies are used for the wrapper circuit.
+		Prepend F::ONE to arity bits like plonky2, representing ConstantArityBits.
+	*/
+	challenger.ObserveElement(gl.One())
+	for _, bit := range config.FriConfig.ReductionStrategy.ConstantArityBits {
+		challenger.ObserveElement(gl.NewVariable(bit))
+	}
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.NumQueryRounds))
+
+	challenger.ObserveElement(gl.NewVariable(c.friChip.FriParams.Hiding))
+	challenger.ObserveElement(gl.NewVariable(c.friChip.FriParams.DegreeBits))
+	for _, v := range c.friChip.FriParams.ReductionArityBits {
+		challenger.ObserveElement(gl.NewVariable(v))
+	}
+
+	fmt.Println()
+	fmt.Println("GetChallenges test")
+	fmt.Println()
+	fmt.Println("config.FriConfig.RateBits:", config.FriConfig.RateBits)
+	fmt.Println("config.FriConfig.CapHeight:", config.FriConfig.CapHeight)
+	fmt.Println("config.FriConfig.ProofOfWorkBits:", config.FriConfig.ProofOfWorkBits)
+	fmt.Println("config.FriConfig.ReductionStrategy.ConstantArityBits:", config.FriConfig.ReductionStrategy.ConstantArityBits)
+	fmt.Println("config.FriConfig.NumQueryRounds:", config.FriConfig.NumQueryRounds)
+	fmt.Println("friChip.FriParams.Hiding:", c.friChip.FriParams.Hiding)
+	fmt.Println("friChip.FriParams.DegreeBits:", c.friChip.FriParams.DegreeBits)
+	fmt.Println("friChip.FriParams.ReductionArityBits:", c.friChip.FriParams.ReductionArityBits)
+	fmt.Println()
+
+	fmt.Println()
+	fmt.Println("Field elements")
+	fmt.Println()
+	fmt.Println("config.FriConfig.RateBits:", gl.NewVariable(config.FriConfig.RateBits))
+	fmt.Println("config.FriConfig.CapHeight:", gl.NewVariable(config.FriConfig.CapHeight))
+	fmt.Println("config.FriConfig.ProofOfWorkBits:", gl.NewVariable(config.FriConfig.ProofOfWorkBits))
+	fmt.Println("config.FriConfig.NumQueryRounds:", gl.NewVariable(config.FriConfig.NumQueryRounds))
+	fmt.Println("friChip.FriParams.Hiding:", gl.NewVariable(c.friChip.FriParams.Hiding))
+	fmt.Println("friChip.FriParams.DegreeBits:", gl.NewVariable(c.friChip.FriParams.DegreeBits))
+	fmt.Println()
 
 	var circuitDigest = verifierData.CircuitDigest
 

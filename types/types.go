@@ -4,14 +4,16 @@ import (
 	"github.com/elliottech/gnark-plonky2-verifier/plonk/gates"
 )
 
+type FriReductionStrategy struct {
+	ConstantArityBits []uint64
+}
+
 type FriConfig struct {
-	RateBits        uint64
-	CapHeight       uint64
-	ProofOfWorkBits uint64
-	NumQueryRounds  uint64
-	// Note that we do not need `reduction_strategy` of type FriReductionStrategy as the plonky2 FriConfig has.
-	// reduction_strategy is only used for computing `reduction_arity_bits`, which is serialized in the
-	// CommonCircuitData.
+	RateBits          uint64
+	CapHeight         uint64
+	ProofOfWorkBits   uint64
+	NumQueryRounds    uint64
+	ReductionStrategy FriReductionStrategy
 }
 
 func (fc *FriConfig) Rate() float64 {
