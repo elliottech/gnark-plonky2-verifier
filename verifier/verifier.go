@@ -1,8 +1,6 @@
 package verifier
 
 import (
-	"fmt"
-
 	"github.com/consensys/gnark/frontend"
 	"github.com/elliottech/gnark-plonky2-verifier/challenger"
 	"github.com/elliottech/gnark-plonky2-verifier/fri"
@@ -78,30 +76,6 @@ func (c *VerifierChip) GetChallenges(
 	for _, bit := range c.friChip.FriParams.ReductionArityBits {
 		challenger.ObserveElement(gl.NewVariable(bit))
 	}
-
-	fmt.Println()
-	fmt.Println("GetChallenges test")
-	fmt.Println()
-	fmt.Println("config.FriConfig.RateBits:", config.FriConfig.RateBits)
-	fmt.Println("config.FriConfig.CapHeight:", config.FriConfig.CapHeight)
-	fmt.Println("config.FriConfig.ProofOfWorkBits:", config.FriConfig.ProofOfWorkBits)
-	fmt.Println("config.FriConfig.ReductionStrategy.ConstantArityBits:", config.FriConfig.ReductionStrategy.ConstantArityBits)
-	fmt.Println("config.FriConfig.NumQueryRounds:", config.FriConfig.NumQueryRounds)
-	fmt.Println("friChip.FriParams.Hiding:", c.friChip.FriParams.Hiding)
-	fmt.Println("friChip.FriParams.DegreeBits:", c.friChip.FriParams.DegreeBits)
-	fmt.Println("friChip.FriParams.ReductionArityBits:", c.friChip.FriParams.ReductionArityBits)
-	fmt.Println()
-
-	fmt.Println()
-	fmt.Println("Field elements")
-	fmt.Println()
-	fmt.Println("config.FriConfig.RateBits:", gl.NewVariable(config.FriConfig.RateBits))
-	fmt.Println("config.FriConfig.CapHeight:", gl.NewVariable(config.FriConfig.CapHeight))
-	fmt.Println("config.FriConfig.ProofOfWorkBits:", gl.NewVariable(config.FriConfig.ProofOfWorkBits))
-	fmt.Println("config.FriConfig.NumQueryRounds:", gl.NewVariable(config.FriConfig.NumQueryRounds))
-	fmt.Println("friChip.FriParams.Hiding:", gl.NewVariable(c.friChip.FriParams.Hiding))
-	fmt.Println("friChip.FriParams.DegreeBits:", gl.NewVariable(c.friChip.FriParams.DegreeBits))
-	fmt.Println()
 
 	var circuitDigest = verifierData.CircuitDigest
 
