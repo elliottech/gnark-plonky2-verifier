@@ -51,6 +51,32 @@ func (c *VerifierChip) GetChallenges(
 	numChallenges := config.NumChallenges
 	challenger := challenger.NewChip(c.api)
 
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.RateBits))
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.CapHeight))
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.ProofOfWorkBits))
+	/*
+		Observe FRI reduction strategy.
+		There are 3 types of reduction strategies: Fixed, ConstantArityBits, and MinSize. We only
+		support ConstantArityBits for now. This code must be updated, as well as common circuit data
+		deserialization; should other strategies are used for the wrapper circuit.
+		Prepend F::ONE to arity bits like plonky2, representing ConstantArityBits.
+	*/
+	challenger.ObserveElement(gl.One())
+	for _, bit := range config.FriConfig.ReductionStrategy.ConstantArityBits {
+		challenger.ObserveElement(gl.NewVariable(bit))
+	}
+	challenger.ObserveElement(gl.NewVariable(config.FriConfig.NumQueryRounds))
+
+	if c.friChip.FriParams.Hiding {
+		challenger.ObserveElement(gl.One())
+	} else {
+		challenger.ObserveElement(gl.Zero())
+	}
+	challenger.ObserveElement(gl.NewVariable(c.friChip.FriParams.DegreeBits))
+	for _, bit := range c.friChip.FriParams.ReductionArityBits {
+		challenger.ObserveElement(gl.NewVariable(bit))
+	}
+
 	var circuitDigest = verifierData.CircuitDigest
 
 	challenger.ObserveBN254Hash(circuitDigest)

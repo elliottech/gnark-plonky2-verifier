@@ -19,7 +19,7 @@ type Chip struct {
 	gl                *gl.Chip                 `gnark:"-"`
 	poseidonBN254Chip *poseidon.BN254Chip      `gnark:"-"`
 	commonData        *types.CommonCircuitData `gnark:"-"`
-	friParams         *types.FriParams         `gnark:"-"`
+	FriParams         *types.FriParams         `gnark:"-"`
 }
 
 func NewChip(
@@ -32,7 +32,7 @@ func NewChip(
 		api:               api,
 		poseidonBN254Chip: poseidonBN254Chip,
 		commonData:        commonData,
-		friParams:         friParams,
+		FriParams:         friParams,
 		gl:                gl.New(api),
 	}
 }
@@ -390,16 +390,16 @@ func (f *Chip) verifyQueryRound(
 	initialMerkleCaps []variables.FriMerkleCap,
 	proof *variables.FriProof,
 	xIndex gl.Variable,
-	n uint64,
+	_ uint64,
 	nLog uint64,
 	roundProof *variables.FriQueryRound,
 ) {
 	// Note assertNoncanonicalIndicesOK does not add any constraints, it's a sanity check on the config
-	assertNoncanonicalIndicesOK(*f.friParams)
+	assertNoncanonicalIndicesOK(*f.FriParams)
 
 	xIndex = f.gl.Reduce(xIndex)
-	xIndexBits := f.api.ToBinary(xIndex.Limb, 64)[0 : f.friParams.DegreeBits+f.friParams.Config.RateBits]
-	capIndexBits := xIndexBits[len(xIndexBits)-int(f.friParams.Config.CapHeight):]
+	xIndexBits := f.api.ToBinary(xIndex.Limb, 64)[0 : f.FriParams.DegreeBits+f.FriParams.Config.RateBits]
+	capIndexBits := xIndexBits[len(xIndexBits)-int(f.FriParams.Config.CapHeight):]
 
 	f.verifyInitialProof(xIndexBits, &roundProof.InitialTreesProof, initialMerkleCaps, capIndexBits)
 
@@ -418,7 +418,7 @@ func (f *Chip) verifyQueryRound(
 		precomputedReducedEval,
 	)
 
-	for i, arityBits := range f.friParams.ReductionArityBits {
+	for i, arityBits := range f.FriParams.ReductionArityBits {
 		evals := roundProof.Steps[i].Evals
 
 		cosetIndexBits := xIndexBits[arityBits:]
@@ -505,21 +505,21 @@ func (f *Chip) VerifyFriProof(
 	friProof *variables.FriProof,
 ) {
 	// Not adding any constraints but a sanity check on the proof shape matching the friParams (constant).
-	validateFriProofShape(friProof, instance, f.friParams)
+	validateFriProofShape(friProof, instance, f.FriParams)
 
 	// Check POW
-	f.assertLeadingZeros(friChallenges.FriPowResponse, f.friParams.Config)
+	f.assertLeadingZeros(friChallenges.FriPowResponse, f.FriParams.Config)
 
 	// Check that parameters are coherent. Not adding any constraints but a sanity check
 	// on the proof shape matching the friParams.
-	if int(f.friParams.Config.NumQueryRounds) != len(friProof.QueryRoundProofs) {
+	if int(f.FriParams.Config.NumQueryRounds) != len(friProof.QueryRoundProofs) {
 		panic("Number of query rounds does not match config.")
 	}
 
 	precomputedReducedEvals := f.fromOpeningsAndAlpha(&openings, friChallenges.FriAlpha)
 
 	// Size of the LDE domain.
-	nLog := f.friParams.DegreeBits + f.friParams.Config.RateBits
+	nLog := f.FriParams.DegreeBits + f.FriParams.Config.RateBits
 	n := uint64(math.Pow(2, float64(nLog)))
 
 	if len(friChallenges.FriQueryIndices) != len(friProof.QueryRoundProofs) {
