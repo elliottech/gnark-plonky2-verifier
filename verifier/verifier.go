@@ -69,10 +69,14 @@ func (c *VerifierChip) GetChallenges(
 	}
 	challenger.ObserveElement(gl.NewVariable(config.FriConfig.NumQueryRounds))
 
-	challenger.ObserveElement(gl.NewVariable(c.friChip.FriParams.Hiding))
+	if c.friChip.FriParams.Hiding {
+		challenger.ObserveElement(gl.One())
+	} else {
+		challenger.ObserveElement(gl.Zero())
+	}
 	challenger.ObserveElement(gl.NewVariable(c.friChip.FriParams.DegreeBits))
-	for _, v := range c.friChip.FriParams.ReductionArityBits {
-		challenger.ObserveElement(gl.NewVariable(v))
+	for _, bit := range c.friChip.FriParams.ReductionArityBits {
+		challenger.ObserveElement(gl.NewVariable(bit))
 	}
 
 	fmt.Println()
