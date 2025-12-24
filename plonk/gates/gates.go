@@ -32,6 +32,7 @@ var gateRegexHandlers = map[*regexp.Regexp]func(parameters map[string]string) Ga
 	randomAccessGateRegex:        deserializeRandomAccessGate,
 	reducingExtensionGateRegex:   deserializeReducingExtensionGate,
 	reducingGateRegex:            deserializeReducingGate,
+	poseidon2GateRegex:           deserializePoseidon2Gate,
 }
 
 func GateInstanceFromId(gateId string) Gate {
