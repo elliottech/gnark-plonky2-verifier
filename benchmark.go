@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/consensys/gnark-crypto/ecc"
+	kzg_bn254 "github.com/consensys/gnark-crypto/ecc/bn254/kzg"
 	"github.com/consensys/gnark-crypto/kzg"
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/consensys/gnark/backend/plonk"
@@ -17,7 +18,7 @@ import (
 	"github.com/consensys/gnark/frontend/cs/r1cs"
 	"github.com/consensys/gnark/frontend/cs/scs"
 	"github.com/consensys/gnark/profile"
-	"github.com/consensys/gnark/test"
+	"github.com/consensys/gnark/test/unsafekzg"
 	"github.com/elliottech/gnark-plonky2-verifier/trusted_setup"
 	"github.com/elliottech/gnark-plonky2-verifier/types"
 	"github.com/elliottech/gnark-plonky2-verifier/variables"
@@ -81,6 +82,7 @@ func plonkProof(r1cs constraint.ConstraintSystem, circuitName string, dummy bool
 	var pk plonk.ProvingKey
 	var vk plonk.VerifyingKey
 	var srs kzg.SRS = kzg.NewSRS(ecc.BN254)
+	srsLagrange := new(kzg_bn254.SRS)
 	var err error
 
 	proofWithPis := variables.DeserializeProofWithPublicInputs(types.ReadProofWithPublicInputs("testdata/" + circuitName + "/proof_with_public_inputs.json"))
@@ -102,11 +104,13 @@ func plonkProof(r1cs constraint.ConstraintSystem, circuitName string, dummy bool
 	if dummy {
 		fmt.Println("Using test setup")
 
-		srs, err = test.NewKZGSRS(r1cs)
-
+		var srsLagrangeT kzg.SRS
+		srs, srsLagrangeT, err = unsafekzg.NewSRS(r1cs)
 		if err != nil {
 			panic(err)
 		}
+
+		srsLagrange = srsLagrangeT.(*kzg_bn254.SRS)
 	} else {
 		fmt.Println("Using real setup")
 
@@ -117,17 +121,23 @@ func plonkProof(r1cs constraint.ConstraintSystem, circuitName string, dummy bool
 		}
 
 		fSRS, err := os.Open(fileName)
-
 		_, err = srs.ReadFrom(fSRS)
-
+		if err != nil {
+			panic(err)
+		}
+		_, err = srsLagrange.ReadFrom(fSRS)
+		if err != nil {
+			panic(err)
+		}
 		fSRS.Close()
 
+		srsLagrange.Pk.G1, err = kzg_bn254.ToLagrangeG1(srsLagrange.Pk.G1[:len(srsLagrange.Pk.G1)-3])
 		if err != nil {
 			panic(err)
 		}
 	}
 
-	pk, vk, err = plonk.Setup(r1cs, srs)
+	pk, vk, err = plonk.Setup(r1cs, srs, srsLagrange)
 
 	if err != nil {
 		fmt.Println(err)
