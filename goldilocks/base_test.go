@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/frontend/cs/scs"
 	"github.com/consensys/gnark/profile"
@@ -23,24 +22,25 @@ func (c *TestGoldilocksRangeCheckCircuit) Define(api frontend.API) error {
 	glApi.RangeCheck(NewVariable(c.X))
 	return nil
 }
+
 func TestGoldilocksRangeCheck(t *testing.T) {
 	assert := test.NewAssert(t)
 
 	var circuit, witness TestGoldilocksRangeCheckCircuit
 
 	witness.X = 1
-	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.WithBackends(backend.GROTH16), test.NoSerializationChecks())
+	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.NoSerializationChecks())
 
 	witness.X = 0
-	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.WithBackends(backend.GROTH16), test.NoSerializationChecks())
+	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.NoSerializationChecks())
 
 	witness.X = MODULUS
-	assert.ProverFailed(&circuit, &witness, test.WithCurves(ecc.BN254), test.WithBackends(backend.GROTH16), test.NoSerializationChecks())
+	assert.ProverFailed(&circuit, &witness, test.WithCurves(ecc.BN254), test.NoSerializationChecks())
 
 	one := big.NewInt(1)
 	maxValidVal := new(big.Int).Sub(MODULUS, one)
 	witness.X = maxValidVal
-	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.WithBackends(backend.GROTH16))
+	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254))
 }
 
 type TestGoldilocksRangeCheckBenchmarkCircuit struct {
@@ -103,7 +103,7 @@ func TestGoldilocksMulAdd(t *testing.T) {
 	witness.Y = 2
 	witness.Z = 3
 	witness.ExpectedResult = 5
-	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.WithBackends(backend.GROTH16), test.NoFuzzing())
+	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.NoFuzzing())
 
 	bigOperand := new(big.Int).SetUint64(9223372036854775808)
 	expectedValue, _ := new(big.Int).SetString("18446744068340842500", 10)
@@ -112,5 +112,5 @@ func TestGoldilocksMulAdd(t *testing.T) {
 	witness.Y = bigOperand
 	witness.Z = 3
 	witness.ExpectedResult = expectedValue
-	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.WithBackends(backend.GROTH16), test.NoFuzzing())
+	assert.ProverSucceeded(&circuit, &witness, test.WithCurves(ecc.BN254), test.NoFuzzing())
 }

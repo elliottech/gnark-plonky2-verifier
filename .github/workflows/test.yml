@@ -1,0 +1,34 @@
+name: Tests
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ['1.24.x']
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Install dependencies
+        run: |
+          go get ./...
+
+      - name: Run tests goldilocks
+        run: go test  github.com/elliottech/gnark-plonky2-verifier/goldilocks -v
+
+      - name: Run tests poseidon
+        run: go test  github.com/elliottech/gnark-plonky2-verifier/poseidon -v

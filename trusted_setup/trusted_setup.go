@@ -62,7 +62,7 @@ func eval(p []fr.Element, point fr.Element) fr.Element {
 	return res
 }
 
-func DownloadAndSaveAztecIgnitionSrs(startIdx int, fileName string) {
+func DownloadAndSaveAztecIgnitionSrs(startIdx int, fileName string, preComputeLines bool) {
 	config := ignition.Config{
 		BaseURL:  "https://aztec-ignition.s3.amazonaws.com/",
 		Ceremony: "MAIN IGNITION", // "TINY_TEST_5"
@@ -124,6 +124,11 @@ func DownloadAndSaveAztecIgnitionSrs(startIdx int, fileName string) {
 				next.G2[0],
 			},
 		},
+	}
+
+	if preComputeLines {
+		srs.Vk.Lines[0] = bn254.PrecomputeLines(srs.Vk.G2[0])
+		srs.Vk.Lines[1] = bn254.PrecomputeLines(srs.Vk.G2[1])
 	}
 
 	// sanity check

@@ -66,16 +66,16 @@ func sigmasRange(c *types.CommonCircuitData) []uint64 {
 	return returnArr
 }
 
-func numPreprocessedPolys(c *types.CommonCircuitData) uint64 {
+func NumPreprocessedPolys(c *types.CommonCircuitData) uint64 {
 	sigmasRange := sigmasRange(c)
 	return sigmasRange[len(sigmasRange)-1]
 }
 
-func numZSPartialProductsPolys(c *types.CommonCircuitData) uint64 {
+func NumZSPartialProductsPolys(c *types.CommonCircuitData) uint64 {
 	return c.Config.NumChallenges * (1 + c.NumPartialProducts)
 }
 
-func numQuotientPolys(c *types.CommonCircuitData) uint64 {
+func NumQuotientPolys(c *types.CommonCircuitData) uint64 {
 	return c.Config.NumChallenges * c.QuotientDegreeFactor
 }
 
@@ -84,7 +84,7 @@ func friPreprocessedPolys(c *types.CommonCircuitData) []PolynomialInfo {
 		c,
 		CONSTANTS_SIGMAS.index,
 		0,
-		numPreprocessedPolys(c),
+		NumPreprocessedPolys(c),
 	)
 }
 
@@ -98,7 +98,7 @@ func friZSPartialProductsPolys(c *types.CommonCircuitData) []PolynomialInfo {
 		c,
 		ZS_PARTIAL_PRODUCTS.index,
 		0,
-		numZSPartialProductsPolys(c),
+		NumZSPartialProductsPolys(c),
 	)
 }
 
@@ -107,7 +107,7 @@ func friQuotientPolys(c *types.CommonCircuitData) []PolynomialInfo {
 		c,
 		QUOTIENT.index,
 		0,
-		numQuotientPolys(c),
+		NumQuotientPolys(c),
 	)
 }
 
@@ -123,7 +123,7 @@ func friZSPolys(c *types.CommonCircuitData) []PolynomialInfo {
 func friOracles(c *types.CommonCircuitData) []OracleInfo {
 	return []OracleInfo{
 		{
-			NumPolys: numPreprocessedPolys(c),
+			NumPolys: NumPreprocessedPolys(c),
 			Blinding: CONSTANTS_SIGMAS.blinding,
 		},
 		{
@@ -131,11 +131,11 @@ func friOracles(c *types.CommonCircuitData) []OracleInfo {
 			Blinding: WIRES.blinding,
 		},
 		{
-			NumPolys: numZSPartialProductsPolys(c),
+			NumPolys: NumZSPartialProductsPolys(c),
 			Blinding: ZS_PARTIAL_PRODUCTS.blinding,
 		},
 		{
-			NumPolys: numQuotientPolys(c),
+			NumPolys: NumQuotientPolys(c),
 			Blinding: QUOTIENT.blinding,
 		},
 	}
