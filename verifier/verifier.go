@@ -172,6 +172,9 @@ func (c *VerifierChip) Verify(
 	verifierData variables.VerifierOnlyCircuitData,
 ) {
 	c.rangeCheckProof(proof)
+	for _, input := range publicInputs {
+		c.glChip.RangeCheck(input)
+	}
 
 	// Generate the parts of the witness that is for the plonky2 proof input
 	publicInputsHash := c.GetPublicInputsHash(publicInputs)
