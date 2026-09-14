@@ -63,8 +63,8 @@ func NewVariable(x frontend.Variable) Variable {
 
 // Creates a new Goldilocks field element from an existing uint64. It reduces the element.
 func NewVariableUint64(x uint64) Variable {
-	if x >= 18446744069414584321 {
-		x = x % 18446744069414584321
+	if x >= MODULUS_UINT64 {
+		x = x % MODULUS_UINT64
 	}
 	return NewVariable(x)
 }
