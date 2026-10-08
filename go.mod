@@ -7,7 +7,7 @@ toolchain go1.24.11
 require (
 	github.com/consensys/gnark v0.14.0
 	github.com/consensys/gnark-crypto v0.19.0
-	github.com/consensys/gnark-ignition-verifier v0.0.0-20230527014722-10693546ab33
+	github.com/elliottech/gnark-ignition-verifier v0.0.0-20261008090904-305e23365584
 )
 
 require (
