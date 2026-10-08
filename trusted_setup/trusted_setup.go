@@ -7,7 +7,7 @@ import (
 	"github.com/consensys/gnark-crypto/ecc/bn254"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 	kzg_bn254 "github.com/consensys/gnark-crypto/ecc/bn254/kzg"
-	"github.com/consensys/gnark-ignition-verifier/ignition"
+	"github.com/elliottech/gnark-ignition-verifier/ignition"
 )
 
 func sanityCheck(srs *kzg_bn254.SRS) {
