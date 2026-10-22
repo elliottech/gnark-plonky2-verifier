@@ -1,8 +1,6 @@
 module github.com/elliottech/gnark-plonky2-verifier
 
-go 1.24.0
-
-toolchain go1.24.11
+go 1.26.0
 
 require (
 	github.com/consensys/gnark v0.14.0
@@ -24,9 +22,9 @@ require (
 	github.com/rs/zerolog v1.34.0 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	golang.org/x/crypto v0.41.0 // indirect
+	golang.org/x/crypto v0.56.0 // indirect
 	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b // indirect
 	golang.org/x/sync v0.16.0 // indirect
-	golang.org/x/sys v0.35.0 // indirect
+	golang.org/x/sys v0.47.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
